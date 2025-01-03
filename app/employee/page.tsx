@@ -1,33 +1,42 @@
-'use client'
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Clock, DollarSign, FileText, CheckCircle } from 'lucide-react';
+import { Clock, DollarSign, FileText, CheckCircle } from "lucide-react";
+import {Sidebar} from "@/components/sidebar";
+import {Header} from "@/components/header";
 
 interface EmployeeDashboardProps {
   activeItem: string;
 }
 
-const EmployeeDashboard: React.FC<EmployeeDashboardProps> = ({ activeItem }) => {
+const EmployeeDashboard: React.FC<EmployeeDashboardProps> = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [attendanceMarked, setAttendanceMarked] = useState(false);
+  const [activeItem, setActiveItem] = useState("dashboard");
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+//   const [isVisible, setIsVisible] = useState(true);
 
   const renderContent = () => {
     switch (activeItem) {
-      case 'dashboard':
+      case "dashboard":
         return (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Attendance</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Attendance
+                </CardTitle>
                 <Clock className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{attendanceMarked ? 'Marked' : 'Not Marked'}</div>
-                <Button 
-                  onClick={() => setAttendanceMarked(true)} 
+                <div className="text-2xl font-bold">
+                  {attendanceMarked ? "Marked" : "Not Marked"}
+                </div>
+                <Button
+                  onClick={() => setAttendanceMarked(true)}
                   disabled={attendanceMarked}
                   className="mt-2"
                 >
@@ -42,22 +51,30 @@ const EmployeeDashboard: React.FC<EmployeeDashboardProps> = ({ activeItem }) => 
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">$2,345</div>
-                <p className="text-xs text-muted-foreground">Last month&apos;s salary</p>
+                <p className="text-xs text-muted-foreground">
+                  Last month&apos;s salary
+                </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Leave Balance</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Leave Balance
+                </CardTitle>
                 <Calendar className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">15 days</div>
-                <p className="text-xs text-muted-foreground">Remaining paid leave</p>
+                <p className="text-xs text-muted-foreground">
+                  Remaining paid leave
+                </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Grievances</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Grievances
+                </CardTitle>
                 <FileText className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
@@ -67,7 +84,7 @@ const EmployeeDashboard: React.FC<EmployeeDashboardProps> = ({ activeItem }) => 
             </Card>
           </div>
         );
-      case 'attendance':
+      case "attendance":
         return (
           <Card>
             <CardHeader>
@@ -83,7 +100,7 @@ const EmployeeDashboard: React.FC<EmployeeDashboardProps> = ({ activeItem }) => 
             </CardContent>
           </Card>
         );
-      case 'payroll':
+      case "payroll":
         return (
           <Card>
             <CardHeader>
@@ -111,7 +128,7 @@ const EmployeeDashboard: React.FC<EmployeeDashboardProps> = ({ activeItem }) => 
             </CardContent>
           </Card>
         );
-      case 'grievances':
+      case "grievances":
         return (
           <Card>
             <CardHeader>
@@ -140,12 +157,29 @@ const EmployeeDashboard: React.FC<EmployeeDashboardProps> = ({ activeItem }) => 
   };
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Employee Dashboard</h1>
-      {renderContent()}
+    <div className="min-h-screen flex flex-col md:flex-row">
+      <Sidebar
+        onItemClick={setActiveItem}
+        onCollapseChange={setIsSidebarCollapsed}
+        role={"employee"}
+      />
+      <div
+        className={`flex-1 ${
+          isSidebarCollapsed ? "collapsed" : ""
+        } overflow-auto`}
+      >
+        <Header isSidebarCollapsed={isSidebarCollapsed} />
+        <main className="p-1 md:p-2 lg:p-3 bg-slate-50 dark:bg-neutral-950 ">
+          <div className="flex justify-between items-center mb-4">
+            <div className="space-y-4">
+              <h1 className="text-2xl font-bold">Employee Dashboard</h1>
+              {renderContent()}
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
   );
 };
 
 export default EmployeeDashboard;
-
