@@ -1,36 +1,142 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Employee Dashboard Project - Intern Onboarding
+
+Welcome to the Employee Dashboard project! This README contains all the information you need to get started. Please follow these instructions carefully and feel free to ask questions if you get stuck.
+
+---
+
+## Project Overview
+
+This project is a small part of our larger HRMS/Grievance system. Your task is to build the Employee Dashboard using the tools and practices outlined below. The goal is to assess your ability to implement effective UI/UX design and utilize the technologies we use in our main project.
+
+## Optional: Figma Design
+Before you start coding, You could layout your plans for the dashboard using figma or any other design tool. This will help you visualize the layout and design of the dashboard and will be seen as plus points for your submission.
+
+---
+
+## Tools and Technologies
+
+1. **Next.js**: React framework for building the application.
+2. **ShadCN UI**: Component library for building reusable and accessible UI components.
+3. **CSS Theme**: Use the theme and colors defined in `globals.css` (provided in this project).
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+$ git clone <repository-url>
+$ cd <repository-folder>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Make sure you have Node.js (v18 or higher) installed. Then run:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+$ npm install
+```
 
-## Learn More
+### 3. Run the Development Server
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+$ npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Directory Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **`/app/Employee`**: Please work in this directory  
+- **`/app/page_name`**: Contains the main pages of the project.
+- **`/components`**: Contains reusable UI components. You will use ShadCN UI to build new components here.
+- **`/styles/globals.css`**: Defines the global theme and colors for the project.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Design Guidelines
+
+### 1. UI/UX Practices
+
+- Maintain a consistent and clean design.
+- Ensure responsiveness for different screen sizes.
+- Prioritize accessibility (e.g., ARIA labels, keyboard navigation).
+- Follow the modern design trends (minimalism, proper spacing, readable fonts).
+
+### 2. Color and Theme
+
+Use the colors and styles defined in `globals.css`. This ensures consistency with our existing project.
+
+### 3. ShadCN UI
+
+- Use ShadCN components effectively to avoid building components from scratch.
+- Refer to the [ShadCN UI Documentation](https://shadcn.dev/) for guidance.
+
+---
+
+## Task Outline
+
+### Employee Dashboard Features
+
+1. **Dashboard Overview**:
+   - Display a welcome message.
+   - Create placeholder cards for features such as attendance, leaves, and notifications.
+
+2. **Layout and Design**:
+   - Use a responsive layout.
+   - Ensure proper use of components like `Card`, `Button`, `Input`, etc., from ShadCN UI.
+
+3. **UI Interactivity**:
+   - Implement interactions, such as buttons for navigation or toggling visibility of elements.
+   - Use animations or transitions to enhance the user experience.
+   - Implement a dark mode toggle button.
+   - Make sure to use the toast component for notifications.
+   - Also make sure to use the modal component for any popups.
+   - Kudos and points for using the Tooltip component as well
+
+---
+
+## Helpful Commands
+
+- **Run the development server**: `npm run dev`
+- **Add a new ShadCN component**:
+
+  ```bash
+  npx shadcn@latest add <component-name>
+  ```
+
+---
+
+## Expectations
+
+1. Submit your progress regularly through Git commits.
+2. Write clean and readable code.
+3. Document your thought process in commit messages.
+4. Ask questions if you are unsure about anything.
+5. We need a complete and thorought implmentation of the dashboard.
+6. Make sure to use the components provided by ShadCN UI.
+7. Make sure to use the colors and theme defined in `globals.css`.
+8. Be creative and showcase your design skills.
+
+---
+
+## Resources
+
+1. [Next.js Documentation](https://nextjs.org/docs)
+2. [ShadCN UI Documentation](https://shadcn.dev/)
+3. [CSS Basics](https://developer.mozilla.org/en-US/docs/Learn/CSS)
+
+---
+
+## Notes
+
+- This is your opportunity to showcase your understanding of UI/UX design and frontend development skills.
+- Don’t hesitate to explore and experiment, but ensure consistency with the provided theme and practices.
+
+Good luck, and happy coding! 🎉
+
+Regards Talha.
+
