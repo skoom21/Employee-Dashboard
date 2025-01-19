@@ -11,8 +11,6 @@ import { Header } from "@/components/header";
 interface EmployeeDashboardProps {
   activeItem: string;
 }
-
-
 const EmployeeDashboard: React.FC<EmployeeDashboardProps> = () => {
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [attendanceMarked, setAttendanceMarked] = useState(false);
@@ -30,45 +28,33 @@ const EmployeeDashboard: React.FC<EmployeeDashboardProps> = () => {
     setDate(new Date());
   }, []);
   
-  useEffect(() => {
-    // Inject chatbot script
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    script.innerHTML = `
-      (function(d, t) {
-          var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-          v.onload = function() {
-            window.voiceflow.chat.load({
-              verify: { projectID: '67634ea7f1c0c8cb3f219575' },
-              url: 'https://general-runtime.voiceflow.com',
-              versionID: 'production',
-              render: {
-                mode: 'embedded',
-                target: document.getElementById('flat-chat')
-              },
-              autostart: 'false'
-            });
-          };
-          v.src = "https://cdn.voiceflow.com/widget/bundle.mjs";
-          v.type = "text/javascript";
-          s.parentNode.insertBefore(v, s);
-      })(document, 'script');
-    `;
-    document.body.appendChild(script);
 
-    return () => {
-      document.body.removeChild(script); // Cleanup on unmount
-    };
-  }, []);
-
-  const handleUpdateGrievanceStatus = (id: number, newStatus: string) => {
+  const updateGrievanceStatus = (id: number, newStatus: string) => {
     setGrievances((prevGrievances) =>
       prevGrievances.map((grievance) =>
         grievance.id === id ? { ...grievance, status: newStatus } : grievance
       )
     );
   };
+  useEffect(() => {
+    // Ensure the script is loaded
+    const script = document.createElement('script');
+    script.src = 'https://cdn.voiceflow.com/widget/bundle.mjs';
+    script.type = 'text/javascript';
+    script.onload = () => {
+      window.voiceflow.chat.load({
+        verify: { projectID: '67634ea7f1c0c8cb3f219575' },
+        url: 'https://general-runtime.voiceflow.com',
+        versionID: 'production'
+      });
+    };
+    document.body.appendChild(script);
 
+    return () => {
+     
+      document.body.removeChild(script);
+    };
+  }, []);
   const renderContent = () => {
     switch (activeItem) {
       case "dashboard":
@@ -196,7 +182,7 @@ const EmployeeDashboard: React.FC<EmployeeDashboardProps> = () => {
             })}
           </div>
   
-          {/* Contribution-type Days Grid */}
+         
           <div className="flex w-full">
             {Array.from({ length: 12 }, (_, monthIndex) => (
               <div
@@ -307,66 +293,74 @@ const EmployeeDashboard: React.FC<EmployeeDashboardProps> = () => {
             </CardContent>
           </Card>
         );
-      case "grievances":
-        return (
-    <Card>
-      <CardHeader>
-        <CardTitle>My Grievances</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          {grievances.map((grievance) => (
-            <div
-              key={grievance.id}
-              className="flex items-center justify-between p-2 bg-gray-100 dark:bg-gray-800 rounded"
-            >
-              <span>{grievance.title}</span>
-              <span
-                className={`${
-                  grievance.status === "Resolved"
-                    ? "text-green-500"
-                    : "text-yellow-500"
-                }`}
-              >
-                {grievance.status}
-              </span>
-              <div className="flex space-x-2">
-                {grievance.status !== "Resolved" && (
-                  <Button
-                    onClick={() =>
-                      handleUpdateGrievanceStatus(grievance.id, "Resolved")
-                    }
-                    className="text-xs"
-                  >
-                    Mark as Resolved
+        
+        case "grievances":
+          return (
+            <Card>
+              <CardHeader>
+                <CardTitle>My Grievances</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {grievances.map((grievance) => (
+                    <div
+                      key={grievance.id}
+                      className="flex items-center justify-between p-2 bg-gray-100 dark:bg-gray-800 rounded"
+                    >
+                      <span>{grievance.title}</span>
+                      <span
+                        className={`${
+                          grievance.status === "Resolved"
+                            ? "text-green-500"
+                            : "text-yellow-500"
+                        }`}
+                      >
+                        {grievance.status}
+                      </span>
+                      <div className="flex space-x-2">
+                        {grievance.status !== "Resolved" && (
+                          <Button
+                            onClick={() =>
+                              updateGrievanceStatus(grievance.id, "Resolved")
+                            }
+                            className="text-xs"
+                          >
+                            Mark as Resolved
+                          </Button>
+                        )}
+                        {grievance.status !== "In Progress" && (
+                          <Button
+                            onClick={() =>
+                              updateGrievanceStatus(grievance.id, "In Progress")
+                            }
+                            className="text-xs"
+                          >
+                            Mark as In Progress
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                  <Button className="w-full">
+                    <FileText className="mr-2 h-4 w-4" /> File New Grievance
                   </Button>
-                )}
-                {grievance.status !== "In Progress" && (
-                  <Button
-                    onClick={() =>
-                      handleUpdateGrievanceStatus(grievance.id, "In Progress")
-                    }
-                    className="text-xs"
-                  >
-                    Mark as In Progress
-                  </Button>
-                )}
-              </div>
-            </div>
-          ))}
-          <Button className="w-full">
-            <FileText className="mr-2 h-4 w-4" /> File New Grievance
-          </Button>
-        </div>
-        {/* Chatbot Target Element */}
-        <div id="flat-chat" className="mt-6"></div>
-      </CardContent>
-    </Card>
-  );
-      default:
-        return <div>Content not found</div>;
-    }
-  };
+                </div>
+    
+                
+                <div>
+      
+      <div id="flat-chat"></div> 
+    </div>
+              </CardContent>
+            </Card>
+          );
+    
+        default:
+          return <div>Content not found</div>;
+      }
+    };
+    
+   
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
