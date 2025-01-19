@@ -8,6 +8,7 @@ import { Clock, DollarSign, FileText } from "lucide-react";
 import { Sidebar } from "@/components/sidebar";
 import { Header } from "@/components/header";
 
+
 interface EmployeeDashboardProps {
   activeItem: string;
 }
@@ -120,14 +121,14 @@ const EmployeeDashboard: React.FC<EmployeeDashboardProps> = () => {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center space-y-4">
-  
-          
-          <div className="flex justify-between w-full">
-            <button className="text-sm font-medium px-2 py-1 bg-gray-200 rounded">&larr; Previous</button>
-            <button className="text-sm font-medium px-2 py-1 bg-gray-200 rounded">Next &rarr;</button>
-          </div>
-  
-        
+        <div className="flex justify-between w-full">
+  <button className="text-sm font-medium px-2 py-1 rounded bg-secondary text-secondary-foreground dark:bg-muted dark:text-muted-foreground">
+    &larr; Previous
+  </button>
+  <button className="text-sm font-medium px-2 py-1 rounded bg-secondary text-secondary-foreground dark:bg-muted dark:text-muted-foreground">
+    Next &rarr;
+  </button>
+</div>
           <div className="w-full border p-4 rounded-md">
             {Array.from({ length: 12 }, (_, monthIndex) => {
               const firstDayOfMonth = new Date(2025, monthIndex, 1);
@@ -372,12 +373,15 @@ const EmployeeDashboard: React.FC<EmployeeDashboardProps> = () => {
               We’re excited to have you here! Explore the dashboard to manage
               your tasks effectively and efficiently.
             </p>
+   
+
             <Button
               onClick={() => setShowWelcomeMessage(false)}
-              className="w-full text-lg py-3 bg-primary text-gray-100"
+              className="w-full text-lg py-3"
             >
               Get Started
             </Button>
+
           </div>
         </div>
       )}

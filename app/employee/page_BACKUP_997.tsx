@@ -7,6 +7,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Clock, DollarSign, FileText } from "lucide-react";
 import { Sidebar } from "@/components/sidebar";
 import { Header } from "@/components/header";
+import Tooltip from "@components/ui/tooltip";
 
 interface EmployeeDashboardProps {
   activeItem: string;
@@ -112,7 +113,125 @@ const EmployeeDashboard: React.FC<EmployeeDashboardProps> = () => {
             </Card>
           </div>
         );
- case "attendance":
+        case "attendance":
+          return (
+            <Card>
+              <CardHeader>
+                <CardTitle>Attendance Calendar</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-col items-center space-y-4">
+        
+                  <div className="flex justify-between w-full">
+                    <button className="text-sm font-medium px-2 py-1 bg-gray-200 rounded">
+                      &larr; Previous
+                    </button>
+                    <button className="text-sm font-medium px-2 py-1 bg-gray-200 rounded">
+                      Next &rarr;
+                    </button>
+                  </div>
+        
+                  <div className="w-full border p-4 rounded-md">
+                    {Array.from({ length: 12 }, (_, monthIndex) => {
+                      const firstDayOfMonth = new Date(2025, monthIndex, 1);
+                      const daysInMonth = new Date(2025, monthIndex + 1, 0).getDate();
+        
+                      return (
+                        <div key={monthIndex} className="mb-6">
+                          <div className="text-lg font-semibold mb-2">
+                            {firstDayOfMonth.toLocaleString("default", { month: "long" })}
+                          </div>
+                          <div className="grid grid-cols-7 gap-2 text-center text-xs">
+                            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+                              <div key={day} className="font-medium">
+                                {day}
+                              </div>
+                            ))}
+        
+                            {Array.from({ length: firstDayOfMonth.getDay() }, (_, i) => (
+                              <div key={i}></div>
+                            ))}
+        
+                            {Array.from({ length: daysInMonth }, (_, dayIndex) => {
+                              const day = new Date(2025, monthIndex, dayIndex + 1);
+                              const isPresent = Math.random() > 0.2;
+                              const isHoliday = day.getDay() === 0 || day.getDay() === 6;
+                              const status = isHoliday
+                                ? "Holiday"
+                                : isPresent
+                                ? "Present"
+                                : "Absent";
+                              const color = isHoliday
+                                ? "bg-gray-400"
+                                : isPresent
+                                ? "bg-green-500"
+                                : "bg-orange-500";
+        
+                              return (
+                                <Tooltip
+                                  key={dayIndex}
+                                  content={`Date: ${day.toDateString()}, Status: ${status}`}
+                                >
+                                  <div
+                                    className={`w-6 h-6 ${color} rounded-full flex items-center justify-center`}
+                                  >
+                                    {dayIndex + 1}
+                                  </div>
+                                </Tooltip>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+        
+                  <div className="flex w-full">
+                    {Array.from({ length: 12 }, (_, monthIndex) => (
+                      <div
+                        key={monthIndex}
+                        className="text-xs font-medium text-center gap-1 flex-1"
+                      >
+                        {new Date(2025, monthIndex, 1).toLocaleString("default", {
+                          month: "short",
+                        })}
+                      </div>
+                    ))}
+                  </div>
+        
+                  <div className="flex w-full ps-6">
+                    {Array.from({ length: 12 }, (_, monthIndex) => (
+                      <div key={monthIndex} className="flex-1 grid grid-cols-5 gap-0.5">
+                        {Array.from({ length: 30 }, (_, dayIndex) => {
+                          const date = new Date(2025, monthIndex, dayIndex + 1);
+                          const isPresent = Math.random() > 0.2;
+                          const color = isPresent ? "bg-green-500" : "bg-orange-500";
+        
+                          return (
+                            <Tooltip
+                              key={dayIndex}
+                              content={`Date: ${date.toDateString()}, Status: ${
+                                isPresent ? "Present" : "Absent"
+                              }`}
+                            >
+                              <div
+                                className={`w-4 h-4 ${color} rounded`}
+                              >
+                                <span className="sr-only">
+                                  {isPresent ? "Present" : "Absent"}
+                                </span>
+                              </div>
+                            </Tooltip>
+                          );
+                        })}
+                      </div>
+                    ))}
+                  </div>
+        
+                </div>
+              </CardContent>
+            </Card>
+          );
   return (
     <Card>
       <CardHeader>
