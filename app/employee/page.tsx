@@ -7,7 +7,16 @@ import { Calendar } from "@/components/ui/calendar";
 import { Clock, DollarSign, FileText, CheckCircle } from "lucide-react";
 import {Sidebar} from "@/components/sidebar";
 import {Header} from "@/components/header";
-
+import { useToast } from "@/hooks/use-toast";
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarTrigger,
+} from "@/components/ui/menubar"
 interface EmployeeDashboardProps {
   activeItem: string;
 }
@@ -17,13 +26,36 @@ const EmployeeDashboard: React.FC<EmployeeDashboardProps> = () => {
   const [attendanceMarked, setAttendanceMarked] = useState(false);
   const [activeItem, setActiveItem] = useState("dashboard");
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const toast = useToast();
 //   const [isVisible, setIsVisible] = useState(true);
+
+  const handleMarkAttendance = () => {
+    setAttendanceMarked(true);
+    toast.toast({
+      title: "Attendence Marked!",
+      description: "Your attendence has been marked successfully.",
+    })
+  }
 
   const renderContent = () => {
     switch (activeItem) {
       case "dashboard":
         return (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {/* <Menubar>
+            <MenubarMenu>
+              <MenubarTrigger>Quick Actions</MenubarTrigger>
+              <MenubarContent>
+                <MenubarMenu>
+                  <MenubarItem icon={CheckCircle}>Mark Attendance</MenubarItem>
+                  <MenubarSeparator />
+                  <MenubarItem>Apply for Leave</MenubarItem>
+                  <MenubarItem>View Payroll</MenubarItem>
+                  <MenubarItem>View Grievances</MenubarItem>
+                </MenubarMenu>
+              </MenubarContent>
+            </MenubarMenu>
+            </Menubar> */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
@@ -36,7 +68,7 @@ const EmployeeDashboard: React.FC<EmployeeDashboardProps> = () => {
                   {attendanceMarked ? "Marked" : "Not Marked"}
                 </div>
                 <Button
-                  onClick={() => setAttendanceMarked(true)}
+                  onClick={() => handleMarkAttendance()}
                   disabled={attendanceMarked}
                   className="mt-2"
                 >
@@ -107,7 +139,7 @@ const EmployeeDashboard: React.FC<EmployeeDashboardProps> = () => {
               <CardTitle>Payroll Information</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-2">
+              <div className="sp  ace-y-2">
                 <div className="flex justify-between">
                   <span>Basic Salary:</span>
                   <span>$2,000</span>
